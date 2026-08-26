@@ -1,351 +1,91 @@
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
-
+import React, { useState } from 'react';
 import {
   LayoutDashboard,
   Users,
-  Sprout,
-  Beef,
   Building2,
-  UserRound,
-  BriefcaseBusiness,
   Package,
   Handshake,
-  BarChart3,
-  Bell,
-  Search,
-  Leaf
-} from "lucide-react";
+  Sprout,
+  Beef,
+  BriefcaseBusiness,
+  Building,
+  UserRound
+} from 'lucide-react';
 
-import Dashboard from "./pages/Dashboard";
-import Produtores from "./pages/Produtores";
-import Agricultores from "./pages/Agricultores";
-import Pecuaristas from "./pages/Pecuaristas";
-import Empresas from "./pages/Empresas";
-import Clientes from "./pages/Clientes";
-import Funcionarios from "./pages/Funcionarios";
-import Recursos from "./pages/Recursos";
+import Dashboard from './pages/Dashboard';
+import Produtores from './pages/Produtores';
+import Agricultores from './pages/Agricultores';
+import Pecuaristas from './pages/Pecuaristas';
+import Empresas from './pages/Empresas';
+import Cooperativas from './pages/Cooperativas';
+import Funcionarios from './pages/Funcionarios';
+import Clientes from './pages/Clientes';
+import Recursos from './pages/Recursos';
+import Parcerias from './pages/Parcerias';
 
+import './App.css';
 
 function App() {
+  const [activeTab, setActiveTab] = useState('dashboard');
 
-  const menuPrincipal = [
-    {
-      nome: "Dashboard",
-      caminho: "/",
-      icone: LayoutDashboard
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'dashboard': return <Dashboard />;
+      case 'produtores': return <Produtores />;
+      case 'agricultores': return <Agricultores />;
+      case 'pecuaristas': return <Pecuaristas />;
+      case 'empresas': return <Empresas />;
+      case 'cooperativas': return <Cooperativas />;
+      case 'funcionarios': return <Funcionarios />;
+      case 'clientes': return <Clientes />;
+      case 'recursos': return <Recursos />;
+      case 'parcerias': return <Parcerias />;
+      default: return <Dashboard />;
     }
-  ];
+  };
 
-  const menuGestao = [
-    {
-      nome: "Produtores",
-      caminho: "/produtores",
-      icone: Users
-    },
-    {
-      nome: "Agricultores",
-      caminho: "/agricultores",
-      icone: Sprout
-    },
-    {
-      nome: "Pecuaristas",
-      caminho: "/pecuaristas",
-      icone: Beef
-    },
-    {
-      nome: "Empresas",
-      caminho: "/empresas",
-      icone: Building2
-    },
-    {
-      nome: "Clientes",
-      caminho: "/clientes",
-      icone: UserRound
-    },
-    {
-      nome: "Funcionários",
-      caminho: "/funcionarios",
-      icone: BriefcaseBusiness
-    },
-    {
-      nome: "Recursos",
-      caminho: "/recursos",
-      icone: Package
-    },
-    {
-      nome: "Parcerias",
-      caminho: "/parcerias",
-      icone: Handshake
-    }
+  const menuItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'produtores', label: 'Produtores', icon: Users },
+    { id: 'agricultores', label: 'Agricultores', icon: Sprout },
+    { id: 'pecuaristas', label: 'Pecuaristas', icon: Beef },
+    { id: 'empresas', label: 'Empresas', icon: Building2 },
+    { id: 'cooperativas', label: 'Cooperativas', icon: Building },
+    { id: 'funcionarios', label: 'Funcionários', icon: BriefcaseBusiness },
+    { id: 'clientes', label: 'Clientes', icon: UserRound },
+    { id: 'recursos', label: 'Recursos', icon: Package },
+    { id: 'parcerias', label: 'Parcerias', icon: Handshake },
   ];
-
 
   return (
-
-    <BrowserRouter>
-
-      <div className="app">
-
-        {/* ================================================= */}
-        {/* SIDEBAR */}
-        {/* ================================================= */}
-
-        <aside className="sidebar">
-
-          <div className="logo">
-
-            <div className="logo-icon">
-              <Leaf size={22} />
-            </div>
-
-            <div>
-              <h1>AgroLinker</h1>
-              <span>Gestão Agro</span>
-            </div>
-
-          </div>
-
-
-          {/* MENU PRINCIPAL */}
-
-          <div className="menu-section">
-
-            <span className="menu-title">
-              PRINCIPAL
-            </span>
-
-            {menuPrincipal.map((item) => {
-
-              const Icon = item.icone;
-
-              return (
-
-                <NavLink
-                  key={item.caminho}
-                  to={item.caminho}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "menu-item active"
-                      : "menu-item"
-                  }
-                >
-
-                  <Icon size={19} />
-
-                  <span>{item.nome}</span>
-
-                </NavLink>
-
-              );
-
-            })}
-
-          </div>
-
-
-          {/* MENU GESTÃO */}
-
-          <div className="menu-section">
-
-            <span className="menu-title">
-              GESTÃO
-            </span>
-
-            {menuGestao.map((item) => {
-
-              const Icon = item.icone;
-
-              return (
-
-                <NavLink
-                  key={item.caminho}
-                  to={item.caminho}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "menu-item active"
-                      : "menu-item"
-                  }
-                >
-
-                  <Icon size={19} />
-
-                  <span>{item.nome}</span>
-
-                </NavLink>
-
-              );
-
-            })}
-
-          </div>
-
-
-          {/* RELATÓRIOS */}
-
-          <div className="menu-section">
-
-            <span className="menu-title">
-              ANÁLISES
-            </span>
-
-            <NavLink
-              to="/relatorios"
-              className="menu-item"
-            >
-
-              <BarChart3 size={19} />
-
-              <span>Relatórios</span>
-
-            </NavLink>
-
-          </div>
-
-
-          {/* RODAPÉ SIDEBAR */}
-
-          <div className="sidebar-footer">
-
-            <div className="profile">
-
-              <div className="profile-avatar">
-                GB
-              </div>
-
-              <div className="profile-info">
-
-                <strong>
-                  Administrador
-                </strong>
-
-                <span>
-                  AgroLinker
-                </span>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </aside>
-
-
-        {/* ================================================= */}
-        {/* ÁREA PRINCIPAL */}
-        {/* ================================================= */}
-
-        <div className="main">
-
-          {/* HEADER */}
-
-          <header className="header">
-
-            <div className="header-search">
-
-              <Search size={19} />
-
-              <input
-                type="text"
-                placeholder="Pesquisar..."
-              />
-
-            </div>
-
-
-            <div className="header-right">
-
-              <button className="notification">
-
-                <Bell size={19} />
-
-                <span className="notification-dot">
-                </span>
-
-              </button>
-
-
-              <div className="user">
-
-                <div className="user-avatar">
-                  GB
-                </div>
-
-                <div className="user-data">
-
-                  <strong>
-                    Gabriel
-                  </strong>
-
-                  <span>
-                    Administrador
-                  </span>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </header>
-
-
-          {/* CONTEÚDO */}
-
-          <main className="content">
-
-            <Routes>
-
-              <Route
-                path="/"
-                element={<Dashboard />}
-              />
-
-              <Route
-                path="/produtores"
-                element={<Produtores />}
-              />
-
-              <Route
-                path="/agricultores"
-                element={<Agricultores />}
-              />
-
-              <Route
-                path="/pecuaristas"
-                element={<Pecuaristas />}
-              />
-
-              <Route
-                path="/empresas"
-                element={<Empresas />}
-              />
-
-              <Route
-                path="/clientes"
-                element={<Clientes />}
-              />
-
-              <Route
-                path="/funcionarios"
-                element={<Funcionarios />}
-              />
-
-              <Route
-                path="/recursos"
-                element={<Recursos />}
-              />
-
-            </Routes>
-
-          </main>
-
+    <div className="app-container">
+      <aside className="sidebar">
+        <div className="sidebar-brand">
+          <Sprout size={28} />
+          <span>AgroLinker</span>
         </div>
 
-      </div>
+        <nav className="sidebar-nav">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.id}
+                className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
+                onClick={() => setActiveTab(item.id)}
+              >
+                <Icon size={18} />
+                {item.label}
+              </div>
+            );
+          })}
+        </nav>
+      </aside>
 
-    </BrowserRouter>
-
+      <main className="main-content">
+        {renderContent()}
+      </main>
+    </div>
   );
 }
 
