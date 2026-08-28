@@ -10,7 +10,7 @@ router = APIRouter()
 # CRIAR PRODUTOR
 # ============================================================
 
-@router.post("/Produtor", response_model=Produtor)
+@router.post("", response_model=Produtor)
 async def criar_produtor(prod: ProdutorCreate):
 
     conn = get_connection()
@@ -60,7 +60,7 @@ async def criar_produtor(prod: ProdutorCreate):
 # LISTAR TODOS OS PRODUTORES
 # ============================================================
 
-@router.get("/Produtores", response_model=List[Produtor])
+@router.get("", response_model=List[Produtor])
 async def listar_produtores():
 
     conn = get_connection()
@@ -109,11 +109,9 @@ async def listar_produtores():
 # BUSCAR PRODUTOR POR ID
 # ============================================================
 
-@router.get(
-    "/Produtor/{produtor_id}",
-    response_model=Produtor
-)
+@router.get("/{produtor_id}", response_model=Produtor)
 async def obter_produtor(produtor_id: int):
+
 
     conn = get_connection()
     cur = conn.cursor()
@@ -159,14 +157,10 @@ async def obter_produtor(produtor_id: int):
 # ATUALIZAR PRODUTOR
 # ============================================================
 
-@router.patch(
-    "/Produtor/{produtor_id}",
-    response_model=Produtor
-)
-async def atualizar_produtor(
-    produtor_id: int,
-    prod: ProdutorUpdate
-):
+
+@router.patch("/{produtor_id}", response_model=Produtor)
+async def atualizar_produtor(produtor_id: int, prod: ProdutorUpdate):
+
 
     conn = get_connection()
     cur = conn.cursor()
@@ -277,8 +271,7 @@ async def atualizar_produtor(
 # ============================================================
 # DELETAR PRODUTOR
 # ============================================================
-
-@router.delete("/Produtor/{produtor_id}")
+@router.delete("/{produtor_id}")
 async def deletar_produtor(produtor_id: int):
 
     conn = get_connection()

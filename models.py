@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import date
 
 
 # ============================================================
@@ -25,27 +26,30 @@ class ProdutorUpdate(BaseModel):
     tipo: Optional[str] = None
 
 
-# ============================================================
-# AGRICULTOR
-# ============================================================
+from pydantic import BaseModel
+from typing import Optional
+from datetime import date
+
+
+class AgricultorCreate(BaseModel):
+    id_produtor: int
+    rg: str
+    exp_mercado: int
+    data_nascimento: date
+
+
+class AgricultorUpdate(BaseModel):
+    rg: Optional[str] = None
+    exp_mercado: Optional[int] = None
+    data_nascimento: Optional[date] = None
+
 
 class Agricultor(BaseModel):
     id_produtor: int
     nome: str
-    rg: Optional[str] = None
-    cpf: Optional[str] = None
+    rg: str
     exp_mercado: int
-    data_nascimento: Optional[str] = None
-    telefone: Optional[str] = None
-
-
-class AgricultorUpdate(BaseModel):
-    nome: Optional[str] = None
-    rg: Optional[str] = None
-    cpf: Optional[str] = None
-    exp_mercado: Optional[int] = None
-    data_nascimento: Optional[str] = None
-    telefone: Optional[str] = None
+    data_nascimento: date
 
 
 # ============================================================

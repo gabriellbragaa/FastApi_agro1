@@ -11,15 +11,15 @@ export const produtorAPI = {
   listar: () => api.get("/produtor"),
   buscar: (id) => api.get(`/produtor/${id}`),
   criar: (dados) => api.post("/produtor", dados),
-  atualizar: (id, dados) => api.put(`/produtor/${id}`, dados),
+  atualizar: (id, dados) => api.patch(`/produtor/${id}`, dados),
   excluir: (id) => api.delete(`/produtor/${id}`),
 };
 
 export const agricultoresAPI = {
-  listar: () => api.get("/agricultores"),
-  criar: (dados) => api.post("/agricultores", dados),
+  listar: () => api.get("/agricultor"),
+  criar: (dados) => api.post("/agricultor", dados),
+  excluir: (id) => api.delete(`/agricultor/${id}`),
 };
-
 export const pecuaristaAPI = {
   listar: () => api.get("/pecuarista"),
   criar: (dados) => api.post("/pecuarista", dados),
