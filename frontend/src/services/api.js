@@ -23,11 +23,15 @@ export const agricultoresAPI = {
 export const pecuaristaAPI = {
   listar: () => api.get("/pecuarista"),
   criar: (dados) => api.post("/pecuarista", dados),
+  excluir: (id) => api.delete(`/pecuarista/${id}`),
 };
 
 export const empresaAPI = {
   listar: () => api.get("/empresa"),
   criar: (dados) => api.post("/empresa", dados),
+  buscar: (id) => api.get(`/empresa/${id}`),
+  atualizar: (id, dados) => api.put(`/empresa/${id}`, dados),
+  excluir: (id) => api.delete(`/empresa/${id}`),
 };
 
 export const clienteAPI = {

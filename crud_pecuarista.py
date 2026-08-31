@@ -5,7 +5,7 @@ from models import Pecuarista, PecuaristaUpdate
 
 router = APIRouter()
 
-@router.post("/Pecuarista")
+@router.post("", response_model=dict)
 async def criar_pecuarista(pec: Pecuarista):
     conn = get_connection()
     cur = conn.cursor()
@@ -23,7 +23,7 @@ async def criar_pecuarista(pec: Pecuarista):
         conn.close()
     return {"msg": "Pecuarista criado com sucesso"}
 
-@router.get("/Pecuaristas", response_model=List[Pecuarista])
+@router.get("", response_model=List[Pecuarista])
 async def listar_pecuaristas():
     conn = get_connection()
     cur = conn.cursor()
@@ -42,7 +42,7 @@ async def listar_pecuaristas():
         ) for r in pecuaristas
     ]
 
-@router.get("/Pecuarista/{id_produtor}", response_model=Pecuarista)
+@router.get("{id_produtor}", response_model=Pecuarista)
 async def obter_pecuarista(id_produtor: int):
     conn = get_connection()
     cur = conn.cursor()
@@ -61,7 +61,7 @@ async def obter_pecuarista(id_produtor: int):
         qualidade_produto=p[5]
     )
 
-@router.patch("/Pecuarista/{id_produtor}", response_model=Pecuarista)
+@router.patch("{id_produtor}", response_model=Pecuarista)
 async def atualizar_pecuarista(id_produtor: int, pec: PecuaristaUpdate):
     conn = get_connection()
     cur = conn.cursor()
@@ -112,7 +112,7 @@ async def atualizar_pecuarista(id_produtor: int, pec: PecuaristaUpdate):
         cur.close()
         conn.close()
 
-@router.delete("/Pecuarista/{id_produtor}")
+@router.delete("{id_produtor}")
 async def deletar_pecuarista(id_produtor: int):
     conn = get_connection()
     cur = conn.cursor()

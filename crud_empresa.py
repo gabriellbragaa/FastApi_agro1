@@ -4,11 +4,17 @@ from typing import List, Optional
 from pydantic import BaseModel
 from models import Empresa, EmpresaUpdate
 
+# Schema para receber os dados JSON no POST
+class EmpresaCreate(BaseModel):
+    cnpj: str
+    nome_fantasia: Optional[str] = None
+    tempo_atuacao: Optional[int] = None
+
 router = APIRouter()
 
 
-@router.post("/", response_model=Empresa)
-async def criar_empresa(cnpj: str, nome_fantasia: Optional[str] = None, tempo_atuacao: Optional[int] = None):
+@router.post("", response_model=Empresa)
+async def criar_empresa(dados: EmpresaCreate):
     conn = get_connection()
     cur = conn.cursor()
     try:
@@ -16,7 +22,7 @@ async def criar_empresa(cnpj: str, nome_fantasia: Optional[str] = None, tempo_at
             """INSERT INTO empresa (cnpj, nome_fantasia, tempo_atuacao) 
             VALUES (%s, %s, %s) 
             RETURNING id_empresa, cnpj, nome_fantasia, tempo_atuacao""",
-            (cnpj, nome_fantasia, tempo_atuacao)
+            (dados.cnpj, dados.nome_fantasia, dados.tempo_atuacao)
         )
         nova_empresa = cur.fetchone()
         conn.commit()
@@ -33,7 +39,8 @@ async def criar_empresa(cnpj: str, nome_fantasia: Optional[str] = None, tempo_at
         cur.close()
         conn.close()
 
-@router.get("/", response_model=List[Empresa])
+
+@router.get("", response_model=List[Empresa])
 async def listar_empresas():
     conn = get_connection()
     cur = conn.cursor()
@@ -53,6 +60,7 @@ async def listar_empresas():
     finally:
         cur.close()
         conn.close()
+
 
 @router.get("/{id_empresa}", response_model=Empresa)
 async def obter_empresa(id_empresa: int):
@@ -78,17 +86,16 @@ async def obter_empresa(id_empresa: int):
         cur.close()
         conn.close()
 
+
 @router.put("/{id_empresa}", response_model=Empresa)
 async def atualizar_empresa(id_empresa: int, empresa_update: EmpresaUpdate):
     conn = get_connection()
     cur = conn.cursor()
     try:
-        # Verifica se a empresa existe
         cur.execute("SELECT 1 FROM empresa WHERE id_empresa = %s", (id_empresa,))
         if not cur.fetchone():
             raise HTTPException(status_code=404, detail="Empresa não encontrada")
 
-        # Atualiza apenas os campos fornecidos
         campos = []
         valores = []
         if empresa_update.cnpj is not None:
@@ -127,6 +134,7 @@ async def atualizar_empresa(id_empresa: int, empresa_update: EmpresaUpdate):
     finally:
         cur.close()
         conn.close()
+
 
 @router.delete("/{id_empresa}")
 async def deletar_empresa(id_empresa: int):
